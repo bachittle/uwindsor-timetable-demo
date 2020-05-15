@@ -25,6 +25,13 @@
             display: block;
             padding: 10px;
         }
+        #success {
+            background-color: rgb(0, 75, 189);
+            margin: 0px -20px 0px -20px;
+        }
+        .sections {
+            margin: 0px 20px 0px 20px;
+        }
     </style>
 </head>
 <body>
@@ -38,12 +45,13 @@
         <br>
         <label for="codeInput">Course Code</label>
         <input class="form-control" id="codeInput" type="text" placeholder="search">
+        <div id="search-results"></div>
         <br>
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
-    <div id="search-results"></div>
-    <div class="card card-body" id="success"></div>
-    <div class="alert alert-danger" id="error"></div>
+    <br>
+    <div id="success" style="display: none;"></div>
+    <div class="alert alert-danger" id="error" style="display: none;"></div>
     <div class="timetable"></div>
     <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>

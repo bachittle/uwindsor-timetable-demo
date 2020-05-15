@@ -38,36 +38,39 @@ function update_search_results(searchCode) {
 
 function classInfo(dataArr) {
     $("#success").empty();
+    $("#success").append("<br>");
     dataArr.forEach(data => {
-        $("#success").append("<h2>"+data.name+"</h2>");
-        $("#success").append("<h3>type: "+data.type+"</h3>")
-        let sectionsClass = $("<div></div>").addClass("sections");
+        let sectionsClass = $("<div></div>").addClass("sections card card-body");
+        sectionsClass.append("<h2>"+data.name+"</h2>");
+        sectionsClass.append("<h3>Type: "+data.type+"</h3>")
         let num = 0;
         data.sections.forEach(section => {
             //console.log(section);
             let sectionClass = $("<div></div>").attr("id", "sec" + section.number);
             sectionClass.append("<h3>Section "+section.number+"</h3>")
+            sectionClass.append("<hr>");
             if (section["full?"]) {
                 sectionClass.append("<p>FULL</p>")
             }
             if (section.credits !== undefined)
-                sectionClass.append("<p>credits: "+section.credits+"</p>")
+                sectionClass.append("<p>Credits: "+section.credits+"</p>")
             if (section.days !== undefined)
-                sectionClass.append("<p>days: "+section.days+"</p>")
+                sectionClass.append("<p>Days: "+section.days+"</p>")
             if (section.time.start !== undefined)
-                sectionClass.append("<p>start time: "+section.time.start+"</p>")
+                sectionClass.append("<p>Start Time: "+section.time.start+"</p>")
             if (section.time.end !== undefined)
-                sectionClass.append("<p>end time: "+section.time.end+"</p>")
+                sectionClass.append("<p>End Time: "+section.time.end+"</p>")
             if (section.room !== undefined && section.room.replace(/\s/g, '').length)
-                sectionClass.append("<p>room: "+section.room+"</p>")
+                sectionClass.append("<p>Room: "+section.room+"</p>")
             if (section.prof !== undefined)
-                sectionClass.append("<p>professor: "+section.prof+"</p>")
+                sectionClass.append("<p>Professor: "+section.prof+"</p>")
             if (section.number)
-                sectionClass.append("<button class=\"addSection\">Add To Timetable</button>")
+                sectionClass.append("<button class=\"addSection btn btn-warning\">Add To Timetable</button>")
             
             sectionsClass.append(sectionClass);
         });
         $("#success").append(sectionsClass);
+        $("#success"). append("<br>");
     });
 } 
 
