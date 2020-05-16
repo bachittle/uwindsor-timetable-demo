@@ -1,9 +1,13 @@
 log.txt
 
+wsgi.py
 uwinpy.py
 classes.py
 classes.txt
 idGen.py
 timeToID.json
+
+venv
+timetable.ini
 
 __pycache__
