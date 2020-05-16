@@ -7,9 +7,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/date_data', methods=['POST'])
+@app.route('/date_data')
 def date_data():
-    date = request.form['date']
+    date = request.args['date']
     if date:
         #print(date)
         fp = open("data/" + date + "_min.json", "r")

@@ -9,7 +9,7 @@ function load_date_json(val) {
         data: {
             date: val
         },
-        type: 'POST',
+        type: 'get',
         url: '/date_data'
     })
     .done(function(data) {
@@ -25,7 +25,7 @@ function update_search_results(searchCode) {
         courses.forEach(course => {
             // console.log(course);
             if (course.search("[A-Z][A-Z][A-Z][A-Z]-[0-9][0-9][0-9][0-9]-[0-9]*") === -1 && course.toLowerCase().search(searchCode.toLowerCase()) !== -1) {
-                $('#search-results').append("<a href=\"javascript:void(0)\">" + course + "</a>");
+                $('#search-results').append("<a class=\"search-result\"href=\"javascript:void(0)\">" + course + "</a>");
                 num++;
             }
             if (num === 10) throw BreakException;
@@ -79,13 +79,42 @@ $(document).on('click', 'a', function(event) {
     $("#search-results").empty();
 });
 
+function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+
 $(document).on('click', '.addSection', function(event) {
+    topFunction();
+    $("#success").empty();
     let sectionNumber = $(event.target).parent().attr("id").slice(3)
-    currentCourseJSON.sections.forEach(section => {
-        if (sectionNumber === section.number) {
-            console.log(sectionNumber);
+    let isCorrectNumber = false;
+    let days;
+    let time;
+    try {
+        currentCourseJSON.forEach(course => {
+            course.sections.forEach(section => {
+                if (sectionNumber === section.number) {
+                    isCorrectNumber = true;
+                    if (section.days && section.time) {
+                        days = section.days;
+                        time = section.time;
+                    }
+                    throw BreakException;
+                }
+                
+            });
+        });
+    }
+    catch(e) {
+        if (e !== BreakException) throw e;
+    }
+    if (isCorrectNumber) {
+        if (days !== undefined && time !== undefined) {
+
         }
-    });
+    }
 });
 
 $(document).ready(function() {
@@ -133,6 +162,7 @@ $(document).ready(function() {
             }
             else {
                 $('#success').show();
+                console.log(data);
                 currentCourseJSON = data;
                 classInfo(data)
                 $('#error').hide();

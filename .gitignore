@@ -3,5 +3,7 @@ log.txt
 uwinpy.py
 classes.py
 classes.txt
+idGen.py
+timeToID.json
 
 __pycache__
