@@ -1,0 +1,28 @@
+<!-- search -->
+<form autocomplete="off" class="form">
+    <div class="form-group">
+        <label for="searchType">Search Term</label>
+        <select name="searchType" class="form-control" id="searchType">
+            <option value="code">Course Code</option>
+            <option value="name">Course Name</option>
+            <option value="prof">Professor</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="dateInput">Semester Date</label>
+        <select name="date" class="form-control" id="dateInput">
+            <option value="s2020">Summer 2020</option>
+            <option value="w2020">Winter 2020</option>
+            <option value="f2019">Fall 2019</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="codeInput">Course Code</label>
+        <div class="input-group">
+            <input class="form-control" id="codeInput" type="text" placeholder="search">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+    <div id="search-results"></div>
+</form>
+<br>

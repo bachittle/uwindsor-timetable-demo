@@ -1,3 +1,0 @@
-function createTimetable(jsonData) {
-
-}
