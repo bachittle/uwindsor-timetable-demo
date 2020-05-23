@@ -6,36 +6,44 @@ app = Flask(__name__)
 # template routes
 @app.route('/')
 def index():
+    if 'q' in request.args:
+        print(request.args['q'])
     return render_template('index.html')
 
 @app.route('/timetable')
-def timetable():
+def timetable_template():
     if request.referrer:
         size = request.args['size']
         return render_template('timetable-'+size+'.html')
     else:
         return render_template('index.html')
 
+@app.route('/search')
+def search_template():
+    if request.referrer:
+        return render_template('search.html')
+    else:
+        return render_template('index.html')
+
+
 # data routes
-@app.route('/search_data')
-def search_data():
+@app.route('/load_search_data')
+def load_search_data():
     date = request.args['date']
     request_type = request.args['type']
-    if date:
+    if date and request_type:
         fp = open("data/" + date + "_min.json", "r")
         json_data = json.load(fp)
         fp.close()
         new_list = []
         for key in json_data.keys():
-            if request_type == "code" or request_type == "name":
-                new_list.append(json_data[key])
-                new_list[-1]["code"] = key
-            elif request_type == "prof":
+            new_list.append(json_data[key])
+            new_list[-1]["code"] = key
+            if request_type == "profs":
+                new_list[-1]["profs"] = []
                 for section in json_data[key]['sections']:
-                    new_list.append(section)
-                    new_list[-1]["code"] = key
-            else:
-                return jsonify({"error": "invalid request type"})
+                    if 'prof' in section:
+                        new_list[-1]["profs"].append(section['prof'])
         return jsonify(new_list)
     return jsonify({"error": "something went wrong when reading the date"})
 

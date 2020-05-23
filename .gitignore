@@ -7,6 +7,9 @@ classes.txt
 idGen.py
 timeToID.json
 
+old_app.py
+static/js/old
+
 venv
 timetable.ini
 
