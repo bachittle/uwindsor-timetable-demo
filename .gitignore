@@ -14,3 +14,7 @@ venv
 timetable.ini
 
 __pycache__
+*.pyc
+
+simpledb.py
+data/sql

@@ -1,0 +1,62 @@
+body {
+    position: relative;
+}
+form {
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+}
+#search-results {
+    position: absolute;
+    margin-top: -0.8rem;
+}
+/*
+#search-results a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+}
+*/
+li.list-group-item {
+    padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+}
+#content {
+    background-color: rgb(0, 75, 189);
+    padding: 20px;
+}
+
+#codeInput {
+    margin-right: 5px;
+}
+.sections {
+    margin: 20px 0px 20px 0px;
+}
+
+tr {
+    line-height: 5px;
+}
+
+.table td {
+    padding: .2rem;
+}
+
+.table td:not(.table-line) {
+    border-top: none;
+}
+
+.table td.table-line-big, .table th {
+    border-top: 1.2px solid #aaaeb1;
+}
+
+.table thead th {
+    border-top: none;
+}
+
+.course {
+    background-color: rgb(0, 75, 189);
+}
+
+.dynamic {
+    display: none;
+}

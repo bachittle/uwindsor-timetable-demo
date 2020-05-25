@@ -1,7 +1,14 @@
 from flask import Flask, render_template, request, jsonify
 import json
+from simpledb import *
 
 app = Flask(__name__)
+
+"""
+@app.route('/id/<id>')
+def get_name(id):
+    return "id: {0}".format(id)
+"""
 
 # template routes
 @app.route('/')
@@ -68,5 +75,50 @@ def submit():
     
     return jsonify({'error': 'Missing data!'})
 
+@app.route("/new_cookie", methods=["get"])
+def new_cookie():
+    data = None
+    if "cookie" in request.args:
+        data = request.args["cookie"]
+    """
+    cookies = []
+    with open("data/cache/cookies.txt", "r") as fp:
+        cookies = [int(x) for x in fp.read().split('\n') if x]
+    if data:
+        if int(data) not in cookies:
+            with open("data/cache/cookies.txt", "a") as fp:
+                fp.write(str(data) + "\n")
+        return jsonify({'cookie': data})
+    else:
+        rand_num = random.randint(0, 100000000)
+        while rand_num in cookies:
+            rand_num += 1
+        with open("data/cache/cookies.txt", "a") as fp:
+                fp.write(str(rand_num) + "\n")
+        return jsonify({'cookie': rand_num})
+    """
+
+@app.route("/get_user")
+def get_user():
+    id = request.args['id']
+    data = request.args['data']
+    is_new = request.args['isNew']
+    print("id: {0}".format(id))
+    print("data: {0}".format(data))
+    print("isNew: {0}".format(is_new))
+    if id:
+        if is_new:
+            exists = db.session.query(User.id).filter_by(id=id).scalar() is not None
+            print(exists)
+            if not exists:
+                db.session.add(User(id=id, data=data))
+            exists = db.session.query(User.id).filter_by(id=id).scalar() is not None
+            print(exists)
+        else:
+            pass
+    return jsonify({"id": id, "data": "test"})
+
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    #app.run(host="0.0.0.0")
+    app.run(debug=True)

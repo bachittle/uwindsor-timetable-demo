@@ -1,5 +1,7 @@
 // interacting with search.html to search for courses in a user-friendly way
 
+import { courseInfo } from "./content.js";
+
 // variables in this scope
 let form = {
     type: undefined,
@@ -7,7 +9,7 @@ let form = {
     search: undefined 
 };
 let allCourses;   // data to be searched on, json format follows s2020_min.json
-let globalResult; // result of search used to store data elsewhere
+let searchResults; // result of search used to store data elsewhere
 
 // load data from json file in backend to search for courses and get results similar to google 
 function loadData() {
@@ -29,31 +31,57 @@ function loadData() {
 // searches the global variable courses upon the specified search term in form.search
 function fuseSearch() {
     if (form.search) {
-        // console.time("fuse");
+        console.time("fuse");
         const options = {
             includeScore: true,
             keys: [form.type]
         };
         const fuse = new Fuse(allCourses, options);
         const result = fuse.search(form.search);
-        // console.timeEnd("fuse");
-        console.log({"name": "first result", result});
         let limit = 10;
-        let set = new Set();
+        searchResults = {};
         for (let i = 0; i < limit; i++) {
+            // console.log(limit);
+            // no point in going past the length of the array...
+            if (i > result.length) break;
             if (result[i] !== undefined) {
                 const res = result[i];
                 let finalResult = res.item[form.type];
                 if (form.type === "profs") {
-                    const fuse = new Fuse(res.item.profs);
+                    finalResult = undefined;
+                    // search for a specific prof in a section
+                    const options = {
+                        includeScore: true,
+                        keys: ["prof"],
+                        threshold: 0.5
+                    }
+                    const fuse = new Fuse(res.item.sections, options);
                     const result = fuse.search(form.search);
-                    console.log({"name": "second result", result});
-                    finalResult = result[0].item;
+                    // console.log({"name": "second result", result});
+                    if (result[0] !== undefined) {
+                        finalResult = result[0].item.prof;
+                    }
                 }
-                if (res.item.code.search("[0-9][0-9][0-9][0-9]-[0-9]") == -1 && !set.has(finalResult)) {
-                    set.add(res.item[form.type]);
-                    $('#search-results').append("<a class=\"search-result\"href=\"javascript:void(0)\">" + finalResult + "</a>");
-                }
+                if (finalResult) {
+                    let index = finalResult.search("[0-9][0-9][0-9][0-9]-[0-9]");
+                    if (index != -1) {
+                        finalResult = finalResult.slice(0, index + 4);
+                    }
+                    else {
+                        $('#search-results').append(`<li class="list-group-item"><a class="search-result btn btn-block"href="javascript:void(0)">${finalResult}</a></li>`);
+                    }
+                    if (finalResult in searchResults) {
+                        if (form.date === "s2020") {
+                            searchResults[finalResult].unshift(res.item);
+                        }
+                        else {
+                            searchResults[finalResult].push(res.item);
+                        }
+                    }
+                    else {
+                        searchResults[finalResult] = [res.item];
+                    }
+               }
                 else {
                     limit++;
                 }
@@ -62,6 +90,7 @@ function fuseSearch() {
                 limit++;
             }
         }
+        console.timeEnd("fuse");
     }
 }
 
@@ -86,14 +115,79 @@ function updateField(field) {
     }
 }
 
+const be = {};
+function submitForm() {
+    let val = $("#searchInput").val();
+    //console.log(val);
+    let error;
+    if (searchResults === undefined) {
+        error = "invalid search, nothing inputted into search";
+    }
+    else {
+        try {
+            let arr = searchResults;
+            if (!Array.isArray(searchResults)) {
+                arr = Object.keys(searchResults);
+            }
+            else {
+                fuseSearch();
+            }
+            arr.forEach(key => {
+                if (key.hasOwnProperty("code") && key.code.trim() == val) {
+                    throw be;
+                }
+            });
+            if ($(".search-result").length > 0) {
+                val = $($(".search-result")[0]).text();
+                $("#searchInput").val(val);
+            }
+            else {
+                error = "invalid search, please try again";
+            }
+        }
+        catch(e) {
+            console.log("test");
+            if (e !== be) throw e;
+        }
+    }
+    if (error === undefined) {
+        searchResults = searchResults[val];
+        if (form.type === "name") {
+            allCourses.forEach(course => {
+                let codeToCheck = searchResults[0].code;
+                if (form.date === "s2020") {
+                    if (codeToCheck !== course.code && codeToCheck.search(course.code) !== -1) {
+                        searchResults.push(course);
+                    }
+                }
+                else {
+                    if (codeToCheck !== course.code && course.code.search(codeToCheck) !== -1) {
+                        searchResults.push(course);
+                    }
+
+                }
+            });
+        }
+
+        $("#search-results").empty().hide();
+        $("#content").show();
+        $("#error").hide();
+        courseInfo(searchResults);
+    }
+    else {
+        $("#content").hide();
+        $("#error").text(error).show();
+    }
+}
+
 const courseSearch = {
     // for interacting with DOM elements already loaded from search.html
     static: function() {
+        $("#search").show();
         // default values on load
         Object.keys(form).forEach(key => {
             updateField(key);
         });
-        console.table(form);
 
         $("#searchType").on('change', function(event) {
             updateField("type");
@@ -102,17 +196,40 @@ const courseSearch = {
             updateField("date");
         });
 
-        $('#searchInput').keyup(function(event) {
-            $("#search-results").empty();
-            if (event.target.value !== "" && event.key !== "Enter") {
-                updateField("search");
+        $(window).keydown(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
             }
+        });
+        $('#searchInput').keyup(function(event) {
+            if (event.target.value !== "") {
+                if (event.key === "Enter") {
+                    submitForm();
+                }
+                else {
+                    $("#search-results").empty().show();
+                    updateField("search");
+                }
+            }
+            else {
+                $("#search-results").hide();
+            }
+        });
+
+        $('form').on('submit', function(event) {
+            event.preventDefault();
+            submitForm();
         });
     },
     // dynamic DOM data, such as search results
     dynamic: function() {
-        
+        $(document).on('click', 'a.search-result', function(event) {
+            $("#searchInput").val(event.target.text);
+            $("#search-results").empty().hide();
+            submitForm();
+        });
     }
 };
 
-export {courseSearch};
+export {form, searchResults, courseSearch};

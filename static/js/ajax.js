@@ -1,4 +1,5 @@
 /** all things ajax, to help de-couple the interaction between backend and frontend */
+import {idCookie, getCookie, setCookie} from './cookie.js';
 
 // key is the url route and value is the ajax data to send to the backend
 const routes = {
@@ -37,4 +38,52 @@ function checkRoutes(callbackfn) {
     });
 }
 
-export {checkRoutes};
+/* gets cookie information from backend, deprecated? */
+function cookieAJAX() {
+    console.log(document.cookie);
+    console.log(getCookie("id"));
+    $.ajax({
+        data: {
+            cookie: getCookie("id")
+        },
+        type: 'get',
+        url: '/new_cookie'
+    })
+    .done(function(data) {
+        console.log(data);
+        setCookie("id", data.cookie, 100);
+    });
+}
+
+function timetableAJAX(fun) {
+    const size = "1h";
+    $.ajax({
+        data: {
+            size
+        },
+        type: 'get',
+        url: '/timetable'
+    })
+    .done(function(data) {
+        $("#content").append(data);
+        fun();
+    });
+}
+
+function userData(jsonData, fun) {
+    const isNew = idCookie();
+    $.ajax({
+        data: {
+            id: getCookie("id"),
+            data: JSON.stringify(jsonData),
+            isNew
+        },
+        type: 'get',
+        url: '/get_user'
+    })
+    .done(function(data) {
+        fun(data);
+    })
+}
+
+export {checkRoutes, timetableAJAX, userData};
