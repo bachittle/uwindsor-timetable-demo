@@ -2,12 +2,20 @@ log.txt
 
 wsgi.py
 uwinpy.py
+
 classes.py
 classes.txt
+
 idGen.py
 timeToID.json
+old_app.py
+static/js/old
 
 venv
 timetable.ini
 
 __pycache__
+*.pyc
+
+simpledb.py
+data/sql
