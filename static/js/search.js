@@ -11,6 +11,16 @@ let form = {
 let allCourses;   // data to be searched on, json format follows s2020_min.json
 let searchResults; // result of search used to store data elsewhere
 
+function cleanCode(code) {
+    let index = code.search("[0-9][0-9][0-9][0-9]-[0-9]");
+    if (index != -1) {
+        return code.slice(0, index + 4);
+    }
+    else {
+        return code;
+    }
+}
+
 // load data from json file in backend to search for courses and get results similar to google 
 function loadData() {
     if (form.date !== undefined && form.type !== undefined) {
@@ -28,10 +38,11 @@ function loadData() {
     }
 }
 
+
 // searches the global variable courses upon the specified search term in form.search
 function fuseSearch() {
     if (form.search) {
-        console.time("fuse");
+        //console.time("fuse");
         const options = {
             includeScore: true,
             keys: [form.type]
@@ -63,12 +74,12 @@ function fuseSearch() {
                     }
                 }
                 if (finalResult) {
-                    let index = finalResult.search("[0-9][0-9][0-9][0-9]-[0-9]");
-                    if (index != -1) {
-                        finalResult = finalResult.slice(0, index + 4);
+                    const newFinalResult = cleanCode(finalResult);
+                    if (newFinalResult === finalResult) {
+                        $('#search-results').append(`<li class="list-group-item"><a class="search-result btn btn-block"href="javascript:void(0)">${finalResult}</a></li>`);
                     }
                     else {
-                        $('#search-results').append(`<li class="list-group-item"><a class="search-result btn btn-block"href="javascript:void(0)">${finalResult}</a></li>`);
+                        finalResult = newFinalResult;
                     }
                     if (finalResult in searchResults) {
                         if (form.date === "s2020") {
@@ -90,7 +101,7 @@ function fuseSearch() {
                 limit++;
             }
         }
-        console.timeEnd("fuse");
+        //console.timeEnd("fuse");
     }
 }
 
@@ -146,7 +157,7 @@ function submitForm() {
             }
         }
         catch(e) {
-            console.log("test");
+            //console.log("test");
             if (e !== be) throw e;
         }
     }
@@ -172,7 +183,7 @@ function submitForm() {
         $("#search-results").empty().hide();
         $("#content").show();
         $("#error").hide();
-        courseInfo(searchResults);
+        courseInfo(searchResults, $("#content"));
     }
     else {
         $("#content").hide();
@@ -226,10 +237,10 @@ const courseSearch = {
     dynamic: function() {
         $(document).on('click', 'a.search-result', function(event) {
             $("#searchInput").val(event.target.text);
-            $("#search-results").empty().hide();
             submitForm();
+            $("#search-results").empty().hide();
         });
     }
 };
 
-export {form, searchResults, courseSearch};
+export {form, searchResults, courseSearch, cleanCode};

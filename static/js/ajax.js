@@ -1,41 +1,14 @@
 /** all things ajax, to help de-couple the interaction between backend and frontend */
-import {idCookie, getCookie, setCookie} from './cookie.js';
+import { getCookie, setCookie} from './cookie.js';
 
-// key is the url route and value is the ajax data to send to the backend
-const routes = {
-    "timetable": {
-        size: '1h'
-    }
-};
-
-/*
- *  checkRoutes: depending on the href, there needs to be ajax to add the required html
- *      to make this site reactive. 
- */
-function checkRouteAJAX(route, callbackfn) {
+function templateAjax(route, fun) {
     $.ajax({
-        data: routes[route], 
-        type: 'get',
+        type: "get",
         url: `/${route}`
-    })
-    .done(function(data) {
+    }).then(function(data) {
         $(`#${route}`).append(data);
-        callbackfn();
-    });
-}
-function checkRoutes(callbackfn) {
-    // root implies welcome page and search 
-    if (location.pathname == '/') {
-        // TODO
-        // checkRouteAJAX("welcome"); 
-        checkRouteAJAX("search", callbackfn);
-    }
-    Object.keys(routes).forEach(route => {
-        // console.log(location.pathname);
-        if (window.location.href.indexOf(route) !== -1) {
-            checkRouteAJAX(route, callbackfn);
-        }
-    });
+        fun();
+    })
 }
 
 /* gets cookie information from backend, deprecated? */
@@ -70,20 +43,23 @@ function timetableAJAX(fun) {
     });
 }
 
-function userData(jsonData, fun) {
-    const isNew = idCookie();
+/*
+    ttCookieAJAX: generates json from cookie data, in the format required for addedCookies object
+        in timtable.js. 
+
+        tt: string looks like this: COMP-1000-1;91:COMP-2310;91:...
+            course code followed by section number, delimited by ;
+            each value delimited by :
+*/
+function ttCookieAjax(tt, fun) {
+    let val = "";
     $.ajax({
         data: {
-            id: getCookie("id"),
-            data: JSON.stringify(jsonData),
-            isNew
+            tt
         },
-        type: 'get',
-        url: '/get_user'
-    })
-    .done(function(data) {
-        fun(data);
-    })
+        type: "post",
+        url: "load_timetable_data"
+    }).then(data => fun(data));
 }
 
-export {checkRoutes, timetableAJAX, userData};
+export { templateAjax, timetableAJAX, ttCookieAjax };

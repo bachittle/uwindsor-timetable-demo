@@ -2,7 +2,7 @@ function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    console.log(expires);
+    // console.log(expires);
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Strict;";
 }
 
@@ -31,16 +31,5 @@ function countCookie() {
     return cookie;
 }
 
-// returns true if new cookie is generated. False if there already is a cookie
-function idCookie() {
-    if (!getCookie("id") || isNaN(getCookie("id"))) {
-        const cookie = String(Math.floor(Math.random() * 1000000)) + String(Date.now());
-        setCookie("id", cookie, 100);
-        return true;
-    }
-    else {
-        return false;
-    }
-}
 
-export {countCookie, idCookie, getCookie, setCookie};
+export {countCookie, getCookie, setCookie};

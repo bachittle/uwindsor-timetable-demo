@@ -53,10 +53,6 @@ tr {
     border-top: none;
 }
 
-.course {
-    background-color: rgb(0, 75, 189);
-}
-
 .dynamic {
     display: none;
 }
