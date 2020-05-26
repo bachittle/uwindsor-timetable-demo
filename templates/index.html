@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
     <title>UTable Alpha</title>
+    <meta name="title" content="UTable Alpha">
+    <meta name="description" content="Timetable generator for all UWindsor Students!
+    ">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://utable.net/">
+    <meta property="og:title" content="UTable Alpha">
+    <meta property="og:description" content="Timetable generator for all UWindsor Students!
+    ">
+    <meta property="og:image" content="{{ url_for('static', filename='img/uwinlogo.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://utable.net/">
+    <meta property="twitter:title" content="UTable Alpha">
+    <meta property="twitter:description" content="Timetable generator for all UWindsor Students!
+    ">
+    <meta property="twitter:image" content="{{ url_for('static', filename='img/uwinlogo.png') }}">
     <script src="{{ url_for('static', filename='js/lib/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/debug.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/eventListeners.js') }}"></script>
@@ -16,6 +36,17 @@
 
     <!--google adsense-->
     <script data-ad-client="ca-pub-3318480707867091" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- google analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167618098-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-167618098-1');
+    </script>
+
 
     <!--fuse js fuzzy string search-->
     <script src="{{ url_for('static', filename='js/lib/fuse.js@6.0.0') }}"></script>

@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 import json
-from simpledb import *
 
 app = Flask(__name__)
 
