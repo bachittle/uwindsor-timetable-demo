@@ -1,5 +1,5 @@
 import { form, searchResults } from './search.js';
-import {timetableGen} from './timetable.js';
+import {timetableGen, addedCourses} from './timetable.js';
 
 function welcomeScreen() {
     $("#content").show();
@@ -94,46 +94,23 @@ function modalData(course) {
     footer.append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`);
 }
 
-function canvasGen() {
-    const modal = $("#modalLong");
-    const header = modal.find(".modal-header");
-    const footer = modal.find(".modal-footer");
-    header.empty();
-    footer.empty();
-    header.append(`<h2>Timetable Image</h2>`);
-    const body = modal.find(".modal-body");
-    body.empty();
-    const wpr = window.devicePixelRatio;
-
-    /*
-    let canvas = $("<canvas></canvas>")[0];
-        // Make it visually fill the positioned parent
-    canvas.style.width ='100%';
-    canvas.style.height='100%';
-    // ...then set the internal size to match
-    canvas.width = 1000; 
-    canvas.height = 850;
-    consoleLog({width: canvas.width, height: canvas.height});
-    const ctx = canvas.getContext("2d");
-    ctx.scale(0.56, 0.56);
-    ctx.translate(0, -700);
-    */
-
+function canvasGen(fun) {
     let buttons = "";
     buttons += `<button type="button" id="save-img" class="btn btn-secondary" data-dismiss="modal">Save</button>`;
     buttons += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-    html2canvas($("#content").find("#timetable")[0], {y: 428}).then(canvas => {
+    html2canvas($("#content").find("#timetable")[0], {y: $("#content").find("#timetable")[0].offsetTop}).then(canvas => {
         canvas.style.width ='100%';
-        canvas.style.height='200%';
-        body.append(canvas);
-        footer.append(buttons);
+        canvas.style.height='300%';
+        //footer.append(buttons);
+        fun(canvas, buttons);
         $(document).on("click", "#save-img", function(event) {
-            console.log("test");
-            var link = $("<a>test</a>")
-            link.attr('download', 'timetable.png');
+            var link = $("<a></a>")
+            console.log(addedCourses);
+            link.attr('download', `timetable-${"test"}.png`);
             link.attr('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-            $("#content").append(link);
-            $(link).click();
+            $("#links").append(link);
+            $(link)[0].click();
+            $(link)[0].remove();
         });
     });
 

@@ -9,6 +9,7 @@ const size = {
 
 // dictionary of courses that will be generated as a table. 
 let addedCourses = {};
+let currentDate;
 
 /* beautifies the mess of a table by adding lines every 3 rows */
 function addLines() {
@@ -183,7 +184,9 @@ function addCoursesToTimetable() {
                 $(`#x${xVal}y${matrix.y[0]}`)
                     .addClass("bg-primary")
                     .attr("rowspan", matrix.y.length)
-                    .append(`<button type="button" data-toggle="modal" data-target="#modalLong" id="${key};${j}"class="course btn btn-block btn-primary">${cleanCode(key)} ${course.type}</button>`);
+                    .append(
+`<button type="button" data-toggle="modal" data-target="#modalLong" id="${key};${j}"class="course btn btn-block btn-primary"><h1>${cleanCode(key)} ${course.type}</h1><p>${section.time.start}-${section.time.end}</p></button>`
+                    );
                 for (let i = 1; i < matrix.y.length; i++) {
                     $(`#x${xVal}y${matrix.y[i]}`).remove();
                 }
@@ -191,6 +194,10 @@ function addCoursesToTimetable() {
             j++;
         });
     });
+}
+
+function deleteCourse(section) {
+
 }
 
 // course object is a shallow copy, therefore it can be modified. 
@@ -202,11 +209,20 @@ function timetableGen(course) {
             addLines();
             //console.log(addedCourses);
             if (course !== undefined) {
-                if (!matrixConflict(makeMatrix(course))) {
-                    addCourse(course);
+                if (currentDate === undefined) {
+                    currentDate = course.date;
+                }
+                if (course.date === currentDate) {
+                    delete course.date;
+                    if (!matrixConflict(makeMatrix(course))) {
+                        addCourse(course);
+                    }
+                    else {
+                        $("#error").text("error: time conflict").show();
+                    }
                 }
                 else {
-                    $("#error").text("error: time conflict").show();
+                    $("#error").text("error: date conflict").show();
                 }
             }
             addCoursesToTimetable();
@@ -227,5 +243,10 @@ function cachedTableGen() {
     }
 }
 
+function deleteTimetable() {
+    addedCourses = {};
+    window.location.href = "/";
+}
 
-export {timetableGen, addedCourses, cachedTableGen};
+
+export {timetableGen, addedCourses, cachedTableGen, deleteTimetable, deleteCourse};

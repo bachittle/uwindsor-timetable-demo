@@ -37,8 +37,15 @@ tr {
     line-height: 5px;
 }
 
+.table {table-layout: fixed;}
+
 .table td {
     padding: .2rem;
+}
+
+.table td:not(.end) {
+    border-right: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
 }
 
 .table td:not(.table-line) {
@@ -55,4 +62,21 @@ tr {
 
 .dynamic {
     display: none;
+}
+
+td h1 {
+    margin-bottom: 0;
+    font-size: 0.8rem;
+}
+
+td p {
+    margin-bottom: 0;
+    font-size: 0.6rem;
+}
+
+tbody tr th {
+    width: 15%;
+}
+tbody tr td {
+    width: 20% !important;
 }

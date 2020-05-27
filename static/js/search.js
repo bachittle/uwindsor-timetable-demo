@@ -129,7 +129,7 @@ function updateField(field) {
 const be = {};
 function submitForm() {
     let val = $("#searchInput").val();
-    //console.log(val);
+    // console.log(val);
     let error;
     if (searchResults === undefined) {
         error = "invalid search, nothing inputted into search";
@@ -144,7 +144,7 @@ function submitForm() {
                 fuseSearch();
             }
             arr.forEach(key => {
-                if (key.hasOwnProperty("code") && key.code.trim() == val) {
+                if (key && key.trim() == val) {
                     throw be;
                 }
             });
