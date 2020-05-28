@@ -76,7 +76,7 @@ function fuseSearch() {
                 if (finalResult) {
                     const newFinalResult = cleanCode(finalResult);
                     if (newFinalResult === finalResult) {
-                        $('#search-results').append(`<li class="list-group-item"><a class="search-result btn btn-block"href="javascript:void(0)">${finalResult}</a></li>`);
+                        $('#search-results').append(`<li class="list-group-item"><a class="search-result btn btn-block" href="search?q=${finalResult}" onclick="return false;">${finalResult}</a></li>`);
                     }
                     else {
                         finalResult = newFinalResult;
@@ -136,14 +136,11 @@ function submitForm() {
     }
     else {
         try {
-            let arr = searchResults;
-            if (!Array.isArray(searchResults)) {
-                arr = Object.keys(searchResults);
-            }
-            else {
+            if (Array.isArray(searchResults)) {
                 fuseSearch();
             }
-            arr.forEach(key => {
+            Object.keys(searchResults).forEach(key => {
+                //console.log(key);
                 if (key && key.trim() == val) {
                     throw be;
                 }
@@ -183,6 +180,7 @@ function submitForm() {
         $("#search-results").empty().hide();
         $("#content").show();
         $("#error").hide();
+        $("#buttons").empty().hide();
         courseInfo(searchResults, $("#content"));
     }
     else {
@@ -216,7 +214,12 @@ const courseSearch = {
         $('#searchInput').keyup(function(event) {
             if (event.target.value !== "") {
                 if (event.key === "Enter") {
-                    submitForm();
+                    if ($(".search-result")[0] !== undefined) {
+                        $(".search-result")[0].click();
+                    }
+                    else {
+                        submitForm();
+                    }
                 }
                 else {
                     $("#search-results").empty().show();
@@ -240,6 +243,15 @@ const courseSearch = {
             submitForm();
             $("#search-results").empty().hide();
         });
+    }
+};
+
+const translate = {
+    code2course: function() {
+
+    },
+    course2code: function() {
+
     }
 };
 

@@ -1,4 +1,5 @@
 <div id="timetable" class="card card-body">
+<div class="table-responsive d-flex" style="max-height: auto;">
     <table class="table">
     <thead>
         <tr>
@@ -10,7 +11,7 @@
         <th width="17%" scope="col">Friday</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="line-height: 5px;">
         <tr>
         <th scope="row" rowspan="6">7:00AM</th>
         <td id="x0y0"></td>
@@ -709,15 +710,14 @@
         </tr>
     </tbody>
     </table>
-</div>
-<br>
-<div class="card card-body">
-    <div class="d-flex justify-content-around">
-        <!--
-        <button id="image" type="button" data-toggle="modal" data-target="#modalLong" class="ttbtn btn btn-lg btn-info">save as image</button>
-        -->
-        <button id="image" type="button" class="ttbtn btn btn-lg btn-info">save as image</button>
-        <button id="delete" type="button" data-toggle="modal" data-target="#modalLong" class="ttbtn btn btn-lg btn-danger">delete table</button>
+    <div class="row1 d-flex flex-column">
+        <button style="height: 100%;" class="m-1 resize-btn resize-hor btn btn-sm">→</button>
     </div>
 </div>
+<div class="row2 d-flex">
+    <button style="width:100%;" class="m-1 resize-btn resize-ver btn btn-sm">↓</button>
+</div>
+</div>
+<br>
+
 <div id="links"></div>

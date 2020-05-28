@@ -1,15 +1,55 @@
 import { form, searchResults } from './search.js';
-import {timetableGen, addedCourses} from './timetable.js';
+import {timetableGen, addedCourses } from './timetable.js';
+import {isMobile} from './eventListeners.js';
 
 function welcomeScreen() {
     $("#content").show();
+    $("#content").removeClass("course-tt");
     $("#content").empty();
     $("#content").append(`<h1>Hello World!</h1>`);
+}
+
+function cardTop() {
+    if (isMobile) {
+        if ($(".course-tt").length > 0) {
+            $("#top").addClass("card card-body");
+        }
+    }
+    else {
+        $("#top").removeClass("card card-body");
+    }
+}
+
+let useOnce;
+function changeLetters(smaller, Switch) {
+    // breaks out if using in an event listener until values are switched
+    if (Switch !== undefined && smaller === useOnce) return false;
+    else useOnce = smaller;
+    if ($(".course").length > 0) {
+        let h1 = $(".course").find("h1");
+        let p = $(".course").find("p");
+        for (let i = 0; i < h1.length; i++) {
+            if (smaller) {
+                h1[i].textContent = h1[i].textContent.slice(0, h1[i].textContent.length - 4);
+                //p[i].textContent = "";
+            }
+            else {
+                h1[i].textContent += ` ${$(h1[i]).attr("value")}`;
+                //p[i].textContent = `${$(p[i]).attr("value")}`;
+            }
+        }
+    }
+}
+
+function mobileSwitch() {
+    cardTop(isMobile);
+    changeLetters(isMobile);
 }
 
 // dynamically adds course info to DOM
 function courseInfo(dataArr, body, title, type="cards") {
     consoleLog({dataArr});
+    body.removeClass("course-tt");
     body.empty();
     let tempArr = [];
     dataArr.forEach(data => {
@@ -85,27 +125,34 @@ function addToTimetable(sectionIndex) {
     timetableGen(courseToAdd);
 }
 
-function modalData(course) {
+function modalData(course, id) {
     const modal = $("#modalLong");
     courseInfo([course], modal.find(".modal-body"), modal.find(".modal-title"), "modal");
     const footer = modal.find(".modal-footer"); 
     footer.empty();
-    footer.append(`<button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>`);
+    footer.append(`<button value="${id}" type="button" class="deletebtn btn btn-danger" data-dismiss="modal">Delete</button>`);
     footer.append(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`);
 }
 
 function canvasGen(fun) {
     let buttons = "";
-    buttons += `<button type="button" id="save-img" class="btn btn-secondary" data-dismiss="modal">Save</button>`;
+    buttons += `<button type="button" id="save-img" class="btn btn-primary" data-dismiss="modal">Save</button>`;
     buttons += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+
+    const button1 = $(".resize-btn")[0];
+  //console.log(button1)
+    const button2 = $(".resize-btn")[1];
+    $(".resize-btn").remove();
     html2canvas($("#content").find("#timetable")[0], {y: $("#content").find("#timetable")[0].offsetTop}).then(canvas => {
+        $(".row1").append(button1);
+        $(".row2").append(button2);
         canvas.style.width ='100%';
         canvas.style.height='300%';
         //footer.append(buttons);
         fun(canvas, buttons);
         $(document).on("click", "#save-img", function(event) {
             var link = $("<a></a>")
-            console.log(addedCourses);
+          //console.log(addedCourses);
             link.attr('download', `timetable-${"test"}.png`);
             link.attr('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
             $("#links").append(link);
@@ -116,4 +163,4 @@ function canvasGen(fun) {
 
 }
 
-export {welcomeScreen, courseInfo, addToTimetable, modalData, canvasGen};
+export {changeLetters, cardTop, welcomeScreen, mobileSwitch, courseInfo, addToTimetable, modalData, canvasGen};

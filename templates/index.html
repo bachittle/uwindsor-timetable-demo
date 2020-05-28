@@ -7,26 +7,23 @@
     <!-- Primary Meta Tags -->
     <title>UTable Alpha</title>
     <meta name="title" content="UTable Alpha">
-    <meta name="description" content="Timetable generator for all UWindsor Students!
-    ">
+    <meta name="description" content="Timetable generator for all UWindsor Students!">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://utable.net/">
     <meta property="og:title" content="UTable Alpha">
-    <meta property="og:description" content="Timetable generator for all UWindsor Students!
-    ">
+    <meta property="og:description" content="Timetable generator for all UWindsor Students!">
     <meta property="og:image" content="{{ url_for('static', filename='img/uwinlogo.png') }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://utable.net/">
     <meta property="twitter:title" content="UTable Alpha">
-    <meta property="twitter:description" content="Timetable generator for all UWindsor Students!
-    ">
+    <meta property="twitter:description" content="Timetable generator for all UWindsor Students!">
     <meta property="twitter:image" content="{{ url_for('static', filename='img/uwinlogo.png') }}">
     <script src="{{ url_for('static', filename='js/lib/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/debug.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/global.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/eventListeners.js') }}"></script>
     <!--Bootstrap-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap.min.css') }}">
@@ -37,7 +34,7 @@
     <!--google adsense-->
     <script data-ad-client="ca-pub-3318480707867091" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- google analytics -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Global site tag (gtag.js)  Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167618098-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -57,27 +54,34 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap-social.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a href="javascript:void(0);" class="navbar-brand">UTable Alpha</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Timetable<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/bachittle/uwindsor-timetable-demo" target="_blank">Github</a>
-                </li>
-            </ul>
+<body class="bg-primary">
+    <div id="wrapfabtest">
+        <div class="adBanner">
         </div>
-    </nav>
-    <div class="dynamic alert alert-info alert-dismissable fade show" id="top-alert"></div>
-    <div class="dynamic" id="search"></div>
-    <div class="dynamic alert alert-danger" id="error"></div>
+    </div>
+    <div class="bg-white" id="top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a href="javascript:void(0);" class="navbar-brand">UTable Alpha</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Timetable<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/bachittle/uwindsor-timetable-demo" target="_blank">Github</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="dynamic alert alert-info alert-dismissable fade show" id="top-alert"></div>
+        <div class="dynamic" id="search"></div>
+        <div class="dynamic alert alert-danger" id="error"></div>
+    </div>
     <div class="dynamic" id="content"></div>
+    <div class="dynamic" id="buttons"></div>
     <!-- Modal -->
     <div class="modal fade" id="modalLong" tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -91,10 +95,10 @@
         <div class="modal-body">
         </div>
         <div class="modal-footer">
-<!--
+            <!--
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary">Save changes</button>
--->
+            -->
         </div>
         </div>
     </div>

@@ -1,6 +1,13 @@
 body {
     position: relative;
 }
+
+.adBanner {
+    background-color: transparent;
+    height: 1px;
+    width: 1px;
+}
+
 form {
     padding: 20px;
     position: relative;
@@ -22,7 +29,6 @@ li.list-group-item {
     padding: 0.2rem 1.5rem 0.2rem 1.5rem;
 }
 #content {
-    background-color: rgb(0, 75, 189);
     padding: 20px;
 }
 
@@ -34,10 +40,12 @@ li.list-group-item {
 }
 
 tr {
-    line-height: 5px;
+    line-height: inherit;
 }
 
-.table {table-layout: fixed;}
+.table {
+    table-layout: fixed;
+}
 
 .table td {
     padding: .2rem;
@@ -60,6 +68,10 @@ tr {
     border-top: none;
 }
 
+div.tt-buttons {
+    margin: 1.25rem;
+}
+
 .dynamic {
     display: none;
 }
@@ -79,4 +91,17 @@ tbody tr th {
 }
 tbody tr td {
     width: 20% !important;
+}
+
+@media only screen and (max-width: 850px) {
+    #timetable {
+        width: 800px;
+    }
+    .course-tt {
+        width: 850px;
+    }
+    div#top.card {
+        margin: 1.25rem;
+        padding: 0.5rem;
+    }
 }

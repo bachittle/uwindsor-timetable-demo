@@ -13,8 +13,8 @@ function templateAjax(route, fun) {
 
 /* gets cookie information from backend, deprecated? */
 function cookieAJAX() {
-    console.log(document.cookie);
-    console.log(getCookie("id"));
+  //console.log(document.cookie);
+  //console.log(getCookie("id"));
     $.ajax({
         data: {
             cookie: getCookie("id")
@@ -23,7 +23,7 @@ function cookieAJAX() {
         url: '/new_cookie'
     })
     .done(function(data) {
-        console.log(data);
+      //console.log(data);
         setCookie("id", data.cookie, 100);
     });
 }
@@ -38,8 +38,7 @@ function timetableAJAX(fun) {
         url: '/timetable'
     })
     .done(function(data) {
-        $("#content").append(data);
-        fun();
+        fun(data);
     });
 }
 
