@@ -83,6 +83,7 @@ $(document).on("mousemove touchmove", function(event) {
     if (mouseType === "hor") {
         const val = 100 - (origCoords.x - event.clientX) / 8;
         $("#content")[0].style.width = `${val}%`;
+        $("#timetable")[0].style.width = `${val}%`;
       // console.log($("#content")[0].style.width);
         //console.log(val / 100);
         let change = {

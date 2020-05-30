@@ -1,5 +1,5 @@
 import { form, searchResults } from './search.js';
-import {timetableGen, addedCourses } from './timetable.js';
+import {timetableGen, addedCourses, currentDate } from './timetable.js';
 import {isMobile} from './eventListeners.js';
 
 function welcomeScreen() {
@@ -143,6 +143,7 @@ function canvasGen(fun) {
   //console.log(button1)
     const button2 = $(".resize-btn")[1];
     $(".resize-btn").remove();
+    /*
     html2canvas($("#content").find("#timetable")[0], {y: $("#content").find("#timetable")[0].offsetTop}).then(canvas => {
         $(".row1").append(button1);
         $(".row2").append(button2);
@@ -159,6 +160,31 @@ function canvasGen(fun) {
             $(link)[0].click();
             $(link)[0].remove();
         });
+    });
+    */
+   let node = $("#content").find("#timetable")[0];
+   console.log(node);
+    domtoimage.toPng(node).then(function(dataUrl) {
+        let img = new Image();
+        img.src = dataUrl;
+        $(".row1").append(button1);
+        $(".row2").append(button2);
+        img.style.width ='100%';
+        img.style.height ='100%';
+        fun(img, buttons);
+        $(document).on("click", "#save-img", function(event) {
+            var link = $("<a></a>")
+          //console.log(addedCourses);
+            link.attr('download', `timetable-${currentDate}.png`);
+            link.attr('href', dataUrl.replace("image/png", "image/octet-stream"));
+            $("#links").append(link);
+            $(link)[0].click();
+            $(link)[0].remove();
+        });
+
+
+    }).catch(function(error) {
+        console.error("oops something went wrong! ", error);
     });
 
 }

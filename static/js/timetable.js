@@ -277,6 +277,7 @@ function timetableGen(course) {
                 }
             }
             $("#content").addClass("course-tt");
+            //$("#content")[0].style = "display: block;";
             addCoursesToTimetable();
         });
     //});
@@ -301,4 +302,4 @@ function deleteTimetable() {
 }
 
 
-export {timetableGen, addedCourses, cachedTableGen, deleteTimetable, deleteCourse};
+export {timetableGen, addedCourses, currentDate, cachedTableGen, deleteTimetable, deleteCourse};

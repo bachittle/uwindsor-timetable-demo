@@ -97,9 +97,11 @@ tbody tr td {
     #timetable {
         width: 800px;
     }
+    /*
     .course-tt {
         width: 850px;
     }
+    */
     div#top.card {
         margin: 1.25rem;
         padding: 0.5rem;
