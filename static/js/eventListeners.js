@@ -177,6 +177,7 @@ courseSearch.dynamic();
 $(document).ready(templateAjax("search", function() {
     cachedTableGen();
     const count = countCookie();
+    // uncomment when you have ads
     // if ($("#wrapfabtest").height() > 0) {
         if (count % 4 == 2) {
             myAlerts.top.alert("UWindsor deserves a proper timetable creator. Share the love! 😃", share.reddit(), share.facebook());
