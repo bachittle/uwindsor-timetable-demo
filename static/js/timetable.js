@@ -195,9 +195,10 @@ function addCoursesToTimetable() {
             matrix.x.forEach(xVal => {
                 const times = matrix;
                 const mobileVal = isMobile ? "" : course.type;
+                const matrixLen = matrix.y.length;
                 $(`#x${xVal}y${matrix.y[0]}`)
                     .addClass("bg-primary")
-                    .attr("rowspan", matrix.y.length)
+                    .attr("rowspan", matrixLen)
                     .append(
 `<button 
     type="button" 
@@ -207,11 +208,14 @@ function addCoursesToTimetable() {
     class="course btn btn-block btn-primary"
 >
     <h1 value="${ course.type }">${cleanCode(key)} ${ isMobile ? "" : course.type }</h1>
-    <p value="${section.time.start}-${section.time.end}">${section.time.start}-${section.time.end}</p>
+    ${matrixLen >= 6 ? `<p value="${section.time.start}-${section.time.end}">${section.time.start}-${section.time.end}` : ""}</p>
 </button>`
                     );
-                for (let i = 1; i < matrix.y.length; i++) {
+                for (let i = 1; i < matrixLen; i++) {
                     $(`#x${xVal}y${matrix.y[i]}`).remove();
+                }
+                if (matrixLen < 6) {
+                    $(`#x${xVal}y${matrix.y[0]}`).addClass("min-course")
                 }
             });
             j++;
