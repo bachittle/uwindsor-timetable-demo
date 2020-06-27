@@ -20,6 +20,17 @@ let share = {
         "share-facebook", 
         `<a href="#" type="button" class="btn btn-social btn-facebook m-2"><span class="fa fa-facebook"></span> Facebook</a>`
     );},
+    twitter: () => {return defaultShareFun(
+        `https://twitter.com/intent/tweet?url=${linkToShare}&text=${encodeURIComponent("Create your UWindsor fall 2020 timetables with UTable!")}&hashtags=${encodeURIComponent("uwindsor,windsor,ontario")}`,
+        "share-twitter", 
+        `<a href="#" type="button" class="btn btn-social btn-twitter m-2"><span class="fa fa-twitter"></span> Twitter</a>`
+    );},
+    linkedin: () => {return defaultShareFun(
+        `https://www.linkedin.com/shareArticle?mini=true&url=${linkToShare}&title=${encodeURIComponent("UTable")}&summary=${encodeURIComponent("Create your fall 2020 timetable with UWindsor's new timetable creator!")}&source=${encodeURIComponent("UTable")}`,
+        "share-linkedin", 
+        `<a href="#" type="button" class="btn btn-social btn-linkedin m-2"><span class="fa fa-linkedin"></span> Linkedin</a>`
+    );},
+
     github: () => {return defaultShareFun(
         `https://github.com/bachittle/uwindsor-timetable-demo`,
         "share-github", 

@@ -86,6 +86,14 @@ td p {
     font-size: 0.6rem;
 }
 
+.min-course h1 {
+    font-size: 0.7rem;
+}
+
+.min-course p {
+    font-size: 0.3rem;
+}
+
 tbody tr th {
     width: 15%;
 }

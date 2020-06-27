@@ -66,6 +66,7 @@ function courseInfo(dataArr, body, title, type="cards") {
         }
         if (title === undefined) {
             sectionsClass.append("<h2>"+name+"</h2>");
+            sectionsClass.append("<p>"+key+"</p>")
         }
         else {
             title.empty();
